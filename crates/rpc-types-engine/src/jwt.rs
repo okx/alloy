@@ -222,12 +222,24 @@ impl JwtSecret {
         // and ensure that the `iat` claim is present. The `exp` claim is validated if defined.
         let mut validation = Validation::new(JWT_SIGNATURE_ALGO);
         validation.set_required_spec_claims(&["iat"]);
+        // The Engine API spec makes `exp` optional; jsonwebtoken v10 fails on absent `exp` when
+        // validate_exp=true (the new default), so disable it and rely on our own iat-window check.
+        validation.validate_exp = false;
         let bytes = &self.0;
 
         match jsonwebtoken::decode::<Claims>(jwt, &DecodingKey::from_secret(bytes), &validation) {
             Ok(token) => {
                 if !token.claims.is_within_time_window() {
                     Err(JwtError::InvalidIssuanceTimestamp)?
+                }
+                // The Engine API spec makes `exp` optional, but when present it must not be
+                // expired. jsonwebtoken v10 won't check it (validate_exp=false above), so we
+                // do it manually here.
+                if let Some(exp) = token.claims.exp {
+                    if exp < get_current_timestamp() {
+                        let detail = "ExpiredSignature".to_string();
+                        Err(JwtError::JwtDecodingError(detail))?
+                    }
                 }
             }
             Err(err) => match *err.kind() {
