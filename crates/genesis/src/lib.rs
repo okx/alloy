@@ -1956,7 +1956,6 @@ mod tests {
                 excess_blob_gas: None,
                 blob_gas_used: None,
                 number: None,
-                parent_hash: Some(B256::ZERO),
                 alloc: BTreeMap::from_iter(vec![
                 (
                     Address::from_str("0xdbdbdb2cbd23b783741e8d7fcf51e459b497e4a6").unwrap(),
