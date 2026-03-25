@@ -1894,6 +1894,7 @@ mod tests {
         "timestamp": "0x123456",
         "extraData": "0xfafbfcfd",
         "gasLimit": "0x2fefd8",
+        "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
         "alloc": {
             "dbdbdb2cbd23b783741e8d7fcf51e459b497e4a6": {
                 "balance": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
@@ -2062,7 +2063,6 @@ mod tests {
                     legacy_x_layer_block: None,
                     ..Default::default()
                 },
-                parent_hash: None,
             };
 
         let deserialized_genesis: Genesis = serde_json::from_str(hive_genesis).unwrap();

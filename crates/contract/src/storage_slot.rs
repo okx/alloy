@@ -246,6 +246,7 @@ mod tests {
         test_erc20_token_set_balance(tether).await
     }
     #[tokio::test]
+    #[ignore = "requires live Polygon RPC access"]
     async fn test_erc20_token_polygon() {
         let provider =
             ProviderBuilder::new().connect_http("https://polygon-rpc.com".parse().unwrap());
