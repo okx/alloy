@@ -15,6 +15,9 @@ pub mod constants;
 /// Beacon API events support.
 pub mod events;
 
+/// Types and functions related to the signed beacon block.
+pub mod block;
+
 /// Types and functions related to the beacon block header.
 pub mod header;
 
@@ -35,6 +38,9 @@ pub mod sidecar;
 
 /// Types and functions related to withdrawals.
 pub mod withdrawals;
+
+/// Types for the beacon genesis endpoint.
+pub mod genesis;
 
 /// BLS signature type
 pub type BlsSignature = FixedBytes<BLS_SIGNATURE_BYTES_LEN>;
